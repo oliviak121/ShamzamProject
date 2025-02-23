@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 import requests
 import os
 
-audd_api_key = os.environ('AUDD_API_KEY')
+audd_api_key = os.environ['AUDD_API_KEY']
 
 app = Flask(__name__)
 
@@ -46,4 +46,6 @@ def identify():
         return jsonify({'error': 'Failed to process identification', 'message': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=True, 
+            port=5001,
+            host='localhost')

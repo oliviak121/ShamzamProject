@@ -1,5 +1,6 @@
 import sqlite3
-from config import DATABASE
+
+DATABASE = 'catalogue.db'
 
 def get_db():
     conn = sqlite3.connect(DATABASE)
@@ -9,9 +10,9 @@ def create_tables():
     create_tables_sql = """
     CREATE TABLE IF NOT EXISTS tracks (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        artist_name TEXT NOT NULL,
-        song_name TEXT NOT NULL,
-        song_data BLOB NOT NULL
+        artist TEXT NOT NULL,
+        title TEXT NOT NULL,
+        encoded_song BLOB NOT NULL
     );
     """
     db = get_db()
@@ -30,7 +31,7 @@ def query_db(query, args=(), one=False):
 
 def add_track(artist_name, song_name, song_data):
     db = get_db()
-    db.execute('INSERT INTO tracks (artist_name, song_name, song_data) VALUES (?, ?, ?)',
+    db.execute('INSERT INTO tracks (artist, title, encoded_song) VALUES (?, ?, ?)',
                [artist_name, song_name, song_data])
     db.commit()
 
@@ -40,7 +41,7 @@ def delete_track(track_id):
     db.commit()
 
 def get_tracks():
-    return query_db('SELECT id, artist_name, song_name FROM tracks')
+    return query_db('SELECT id, artist, title FROM tracks')
 
 if __name__ == '__main__':
     create_tables()
