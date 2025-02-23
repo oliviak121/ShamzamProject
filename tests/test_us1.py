@@ -29,6 +29,14 @@ class TestAddSongToCatalogue(unittest.TestCase):
         self.assertEqual(response.status_code, 201)
         self.assertIn('Track added successfully', response.json()['message'])
 
+        # Verify the song is in the database
+        response = requests.get(f"{BASE_URL}/catalogue/search", json={'artist': 'The Weeknd', 'title': 'Blinding Lights'})
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Track found', response.json()['message'])
+        tracks = response.json()['tracks']
+        self.assertEqual(tracks['artist'], 'The Weeknd')
+        self.assertEqual(tracks['title'], 'Blinding Lights')
+
     
     """Unhappy paths for adding a song."""
     def test_add_song_no_artist(self):

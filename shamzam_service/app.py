@@ -26,13 +26,15 @@ def identify():
     except Exception as e:
         return jsonify({'error': 'Failed to communicate with Music Identification Service', 'message': str(e)}), 500
 
-@app.route('/catalogue/search', methods=['POST'])
+@app.route('/catalogue/search', methods=['GET'])
 def search_catalogue():
     # Check if the request is JSON
     if not request.is_json:
         return jsonify({'error': 'Request must be JSON'}), 415
     
     song_data = request.json
+
+    print(f'original song data: {song_data}')
 
     # Check if the required fields are present
     if not song_data:
@@ -44,6 +46,7 @@ def search_catalogue():
     
     # Sends the song data to the Catalogue Management Service
     try:
+        print(f'song data: {song_data}')
         response = requests.get(f'{DATABASE_URL}/search', json=song_data)
     except Exception as e:
         return jsonify({'error': 'Failed to communicate with Catalogue Management Service', 'message': str(e)}), 500
@@ -68,6 +71,11 @@ def add_song():
         return jsonify({'error': 'Title is required'}), 400
     if 'encoded_song' not in song_data:
         return jsonify({'error': 'Encoded song is required'}), 400
+    
+    # Check if all fields are strings
+    for field, value in song_data.items():
+        if not isinstance(value, str):
+            return jsonify({'error': f'{field.capitalize()} must be a string'}), 400
 
     # Sends the song data to the Catalogue Management Service
     try:
@@ -93,6 +101,11 @@ def delete_song():
         return jsonify({'error': 'Artist is required'}), 400
     if 'title' not in song_data:
         return jsonify({'error': 'Title is required'}), 400
+    
+    # Check if all fields are strings
+    for field, value in song_data.items():
+        if not isinstance(value, str):
+            return jsonify({'error': f'{field.capitalize()} must be a string'}), 400
     
     # Sends the song data to the Catalogue Management Service
     try:

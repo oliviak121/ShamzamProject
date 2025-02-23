@@ -15,17 +15,17 @@ create_tables()
 
 @app.route('/search', methods=['GET'])
 def search():
-    artist = request.args.get('artist')
-    title = request.args.get('title')
+    song_data = request.json
+
     try:
         db = get_db()
-        cursor = db.execute('SELECT * FROM tracks WHERE artist = ? AND title = ?', (artist, title))
-        tracks = cursor.fetchall()
+        cursor = db.execute('SELECT * FROM tracks WHERE artist = ? AND title = ?', (song_data['artist'], song_data['title']))
+        track = cursor.fetchone()
 
-        if not tracks:
+        if not track:
             return jsonify({'error': 'Track not found'}), 404
         
-        return jsonify({'message': 'Track found', 'tracks': [dict(track) for track in tracks]}), 200
+        return jsonify({'message': 'Track found', 'tracks': dict(track)}), 200
     
     except Exception as e:
         return jsonify({'error': 'Database error', 'message': str(e)}), 500
