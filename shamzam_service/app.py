@@ -1,6 +1,5 @@
-from flask import Flask, request, jsonify, redirect, url_for
+from flask import Flask, request, jsonify
 import requests
-import base64
 
 app = Flask(__name__)
 
@@ -10,48 +9,6 @@ AUDIO_URL = 'http://localhost:5001'
 @app.route('/')
 def index():
     return "Welcome to Shamzam!"
-
-@app.route('/identify', methods=['POST'])
-def identify():
-    encoded_content = request.json.get('encoded_content')
-    if not encoded_content:
-        return jsonify({'error': 'No encoded content provided'}), 400
-    
-    try:
-        response = requests.post(AUDIO_URL, json={'encoded_content': encoded_content})
-        if response.status_code != 200:
-            raise Exception('Failed to identify the track')
-        return jsonify(response.json()), response.status_code
-    
-    except Exception as e:
-        return jsonify({'error': 'Failed to communicate with Music Identification Service', 'message': str(e)}), 500
-
-@app.route('/catalogue/search', methods=['GET'])
-def search_catalogue():
-    # Check if the request is JSON
-    if not request.is_json:
-        return jsonify({'error': 'Request must be JSON'}), 415
-    
-    song_data = request.json
-
-    print(f'original song data: {song_data}')
-
-    # Check if the required fields are present
-    if not song_data:
-        return jsonify({'error': 'No data provided'}), 400
-    if 'artist' not in song_data:
-        return jsonify({'error': 'Artist is required'}), 400
-    if 'title' not in song_data:
-        return jsonify({'error': 'Title is required'}), 400
-    
-    # Sends the song data to the Catalogue Management Service
-    try:
-        print(f'song data: {song_data}')
-        response = requests.get(f'{DATABASE_URL}/search', json=song_data)
-    except Exception as e:
-        return jsonify({'error': 'Failed to communicate with Catalogue Management Service', 'message': str(e)}), 500
-    
-    return jsonify(response.json()), response.status_code
 
 
 @app.route('/catalogue/add', methods=['POST'])
@@ -126,6 +83,59 @@ def list_songs():
     
     return jsonify(response.json()), response.status_code
 
+
+@app.route('/catalogue/search', methods=['GET'])
+def search_catalogue():
+    # Check if the request is JSON
+    if not request.is_json:
+        return jsonify({'error': 'Request must be JSON'}), 415
+    
+    song_data = request.json
+
+    # Check if the required fields are present
+    if not song_data:
+        return jsonify({'error': 'No data provided'}), 400
+    if 'artist' not in song_data:
+        return jsonify({'error': 'Artist is required'}), 400
+    if 'title' not in song_data:
+        return jsonify({'error': 'Title is required'}), 400
+    
+    # Sends the song data to the Catalogue Management Service
+    try:
+        response = requests.get(f'{DATABASE_URL}/search', json=song_data)
+    except Exception as e:
+        return jsonify({'error': 'Failed to communicate with Catalogue Management Service', 'message': str(e)}), 500
+    
+    return jsonify(response.json()), response.status_code
+
+
+@app.route('/music/identify', methods=['POST'])
+def identify():
+    # Check if the request is JSON
+    if not request.is_json:
+        return jsonify({'error': 'Request must be JSON'}), 415
+    
+    music_fragment = request.json
+
+    # Sends the music fragment to the Music Identification Service to get the song details
+    try:
+        auddio_response = requests.post(f'{AUDIO_URL}/identify', json=music_fragment)
+
+        detected_artist = None
+        detected_title = None
+        if auddio_response.status_code == 200:
+            detected_artist = auddio_response.json().get('artist')
+            detected_title = auddio_response.json().get('title')
+        else:
+            return jsonify({'error': 'Failed to identify music', 'message': auddio_response.json()}), auddio_response.status_code
+        
+        # Search the Catalogue Management Service for the detected song
+        response = requests.get(f'{DATABASE_URL}/search', json={'artist': detected_artist, 'title': detected_title})
+        return jsonify(response.json()), response.status_code
+
+    except Exception as e:
+        return jsonify({'error': 'Failed to communicate with Music Identification Service', 'message': str(e)}), 500
+    
 
 if __name__ == '__main__':
     app.run(debug=True, 

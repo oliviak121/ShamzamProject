@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import requests
 import os
+import base64
 
 audd_api_key = os.environ['AUDD_API_KEY']
 
@@ -9,9 +10,12 @@ app = Flask(__name__)
 @app.route('/identify', methods=['POST'])
 def identify():
     encoded_content = request.json.get('encoded_content')
-
-    if not encoded_content:
-        return jsonify({'error': 'No encoded_content provided'}), 400
+    
+    # Check if the encoded_content is a valid Base64 encoded string
+    try:
+        base64.b64decode(encoded_content, validate=True)
+    except Exception:
+        return jsonify({'error': 'Invalid Base64 encoded content'}), 400
     
     try:
         # Prepare the data payload including the API key
@@ -33,12 +37,17 @@ def identify():
             return jsonify({'error': 'API call failed', 'status_code': response.status_code}), response.status_code
 
         # Parse the JSON response from Audd.io
-        data = response.json()
+        audd_response = response.json()
 
         # Check if a result exists
-        if 'result' in data and data['result']:
-            result = data['result']  
-            return jsonify({'artist': result.get('artist'), 'title': result.get('title')}), 200
+        if 'result' in audd_response and audd_response['result']:
+            result = audd_response['result']
+            artist = result.get('artist')
+            title = result.get('title')
+
+            # Return the result to the Shamzam service
+            return jsonify({'artist': artist, 'title': title}), 200
+        
         else:
             return jsonify({'message': 'No results found'}), 404
 

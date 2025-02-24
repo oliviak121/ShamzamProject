@@ -86,7 +86,7 @@ def search():
         if not track:
             return jsonify({'error': 'Track not found'}), 404
         
-        return jsonify({'message': 'Track found', 'tracks': dict(track)}), 200
+        return jsonify({'message': 'Track found', 'encoded_song': track['encoded_song']}), 200
     
     except Exception as e:
         return jsonify({'error': 'Database error', 'message': str(e)}), 500
