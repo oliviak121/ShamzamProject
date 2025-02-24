@@ -118,15 +118,13 @@ def delete_song():
 
 @app.route('/catalogue/list', methods=['GET'])
 def list_songs():
+    # Sends the request to the Catalogue Management Service
     try:
-        response = requests.get(f'{DATABASE_URL}/list')
-        if response.status_code == 200:
-            return jsonify(response.json()), 200
-        response.raise_for_status()
-    except requests.exceptions.HTTPError as e:
-        return jsonify({'error': 'Catalogue Management Service error', 'message': str(e)}), e.response.status_code
+        response = requests.get(f'{DATABASE_URL}/tracks')
     except Exception as e:
         return jsonify({'error': 'Failed to communicate with Catalogue Management Service', 'message': str(e)}), 500
+    
+    return jsonify(response.json()), response.status_code
 
 
 if __name__ == '__main__':

@@ -13,23 +13,6 @@ def get_db():
 
 create_tables()
 
-@app.route('/search', methods=['GET'])
-def search():
-    song_data = request.json
-
-    try:
-        db = get_db()
-        cursor = db.execute('SELECT * FROM tracks WHERE artist = ? AND title = ?', (song_data['artist'], song_data['title']))
-        track = cursor.fetchone()
-
-        if not track:
-            return jsonify({'error': 'Track not found'}), 404
-        
-        return jsonify({'message': 'Track found', 'tracks': dict(track)}), 200
-    
-    except Exception as e:
-        return jsonify({'error': 'Database error', 'message': str(e)}), 500
-
 @app.route('/add', methods=['POST'])
 def add_track():
     
@@ -73,6 +56,41 @@ def delete_track():
         return jsonify({'message': 'Track deleted successfully'}), 200
     except Exception as e:
         return jsonify({'error': 'Failed to delete track', 'message': str(e)}), 500
+    
+@app.route('/tracks', methods=['GET'])
+def list_tracks():
+    try:
+        db = get_db()
+        cursor = db.execute('SELECT artist, title FROM tracks')
+        tracks = cursor.fetchall()
+        print(f'tracks: {tracks}')
+
+        if not tracks:
+            return jsonify({'message': 'No tracks found'}), 404
+        
+        return jsonify({'message': 'Tracks listed', 'tracks' : [{'artist': track['artist'], 'title': track['title']} for track in tracks]}), 200
+    
+    except Exception as e:
+        return jsonify({'error': 'Failed to list tracks', 'message': str(e)}), 500
+    
+
+@app.route('/search', methods=['GET'])
+def search():
+    song_data = request.json
+
+    try:
+        db = get_db()
+        cursor = db.execute('SELECT * FROM tracks WHERE artist = ? AND title = ?', (song_data['artist'], song_data['title']))
+        track = cursor.fetchone()
+
+        if not track:
+            return jsonify({'error': 'Track not found'}), 404
+        
+        return jsonify({'message': 'Track found', 'tracks': dict(track)}), 200
+    
+    except Exception as e:
+        return jsonify({'error': 'Database error', 'message': str(e)}), 500
+
 
 @app.route('/clear_database', methods=['POST'])
 def clear_database():
