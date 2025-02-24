@@ -9,7 +9,7 @@ app = Flask(__name__)
 
 @app.route('/identify', methods=['POST'])
 def identify():
-    encoded_content = request.json.get('encoded_content')
+    encoded_content = request.json.get('encoded_fragment')
     
     # Check if the encoded_content is a valid Base64 encoded string
     try:
@@ -17,16 +17,16 @@ def identify():
     except Exception:
         return jsonify({'error': 'Invalid Base64 encoded content'}), 400
     
+    # Decode the fragment to get ready to send to Audd.io
+    decoded_wav = base64.b64decode(encoded_content)
+    
     try:
         # Prepare the data payload including the API key
-        data = {
-            'api_token': audd_api_key,
-            'audio': encoded_content,
-            'return': 'music'  
-        }
+        key = {'api_token': audd_api_key  }
+        files = {"file" : ("fragment.wav", decoded_wav, "audio/wav")}
         
         # Make the API call to Audd.io
-        response = requests.post('https://api.audd.io/', data=data)
+        response = requests.post('https://api.audd.io/', data=key, files=files)
 
         # Handle rate limit response
         if response.status_code == 429:
@@ -38,12 +38,17 @@ def identify():
 
         # Parse the JSON response from Audd.io
         audd_response = response.json()
+        print(f'audd_response: {audd_response}')
 
         # Check if a result exists
         if 'result' in audd_response and audd_response['result']:
+            print("Result exists")
             result = audd_response['result']
+            print(f'result: {result}')
             artist = result.get('artist')
+            print(f'artist: {artist}')
             title = result.get('title')
+            print(f'title: {title}')
 
             # Return the result to the Shamzam service
             return jsonify({'artist': artist, 'title': title}), 200

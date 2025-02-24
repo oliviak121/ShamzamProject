@@ -27,7 +27,7 @@ def decode_base64_to_wav(encoded_string, output_file_name):
     """Decodes a base64 string back into a .wav file and saves it to the playlist folder."""
     try:
         audio_content = base64.b64decode(encoded_string)
-        playlist_folder = os.path.join(os.path.dirname(__file__), '../playlist')
+        playlist_folder = os.path.join(os.path.dirname(__file__), '../playlist/')
         os.makedirs(playlist_folder, exist_ok=True)
         output_file_path = os.path.join(playlist_folder, output_file_name)
         with open(output_file_path, "wb") as audio_file:

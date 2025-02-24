@@ -5,7 +5,6 @@ from test_helpers import encode_audio_to_base64, clear_database, decode_base64_t
 
 BASE_URL = "http://localhost:5000"  # URL of the Shamzam service
 FRAGMENT_FOLDER = os.path.join(os.path.dirname(__file__), '../music/fragments')
-PLAYLIST_FOLDER = os.path.join(os.path.dirname(__file__), '../playlist')
 
 
 class TestIdentifyFragment(unittest.TestCase):
@@ -17,14 +16,16 @@ class TestIdentifyFragment(unittest.TestCase):
         """Clear the database after each test."""
         clear_database()
 
+    """Happy path for identifying a music fragment."""
     def test_identify_music_fragment(self):
         # Add a song to the catalogue 
         file_path1 = os.path.join(os.path.dirname(__file__), '../music/tracks/Blinding Lights.wav')
-        response = requests.post(f"{BASE_URL}/catalogue/add", json={
+        data = {
             'artist': 'The Weeknd',
             'title': 'Blinding Lights',
             'encoded_song': encode_audio_to_base64(file_path1)
-        })
+        }
+        response = requests.post(f"{BASE_URL}/catalogue/add", json=data)
         self.assertEqual(response.status_code, 201)
         self.assertIn('Track added successfully', response.json()['message'])
 
@@ -35,24 +36,17 @@ class TestIdentifyFragment(unittest.TestCase):
         encoded_fragment = encode_audio_to_base64(fragment_path)
 
         # Send the encoded fragment to the Shamzam service
-        response = requests.post(f"{BASE_URL}/music/identify", json={'encoded_content': encoded_fragment})
-        self.assertEqual(response.status_code, 200)
-
-        # Extract artist and title from the response
-        artist = response.json()['artist']
-        title = response.json()['title']
-
-        # Verify the song is in the catalogue manager
-        response = requests.get(f"{BASE_URL}/catalogue/search", params={'artist': artist, 'title': title})
+        response = requests.post(f"{BASE_URL}/music/identify", json={'encoded_fragment': encoded_fragment})
         self.assertEqual(response.status_code, 200)
         self.assertIn('Track found', response.json()['message'])
 
         # Extract the encoded song data from the response
-        encoded_song = response.json()['track']['encoded_song']
+        encoded_song = response.json()['encoded_song']
 
         # Decode the encoded song data and save it as a .wav file in the playlist folder
-        output_file_name = f"{artist} - {title}.wav"
+        output_file_name = "found song.wav"
         decode_base64_to_wav(encoded_song, output_file_name)
+
 
 
 if __name__ == '__main__':
