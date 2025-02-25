@@ -16,6 +16,47 @@ Capabilities:
 - [Testing](#testing)
 
 ## Directory Structure
+ShamzamProject/
+├── src/
+│   ├── catalogue_management_service/
+│   │   ├── __init__.py
+│   │   ├── app.py
+│   │   ├── requirements.txt
+│   │   └── catalogue.db
+│   │ 
+│   ├── music_identification_service/
+│   │   ├── __init__.py
+│   │   ├── app.py
+│   │   └── requirements.txt
+│   │ 
+│   └── shamzam_service/
+│       ├── __init__.py
+│       ├── app.py
+│       └── requirements.txt
+│ 
+├── tests/
+│   ├── __init__.py
+│   ├── test_helpers.py
+│   ├── test_us1.py
+│   ├── test_us2.py
+│   ├── test_us3.py
+│   ├── test_us4.py
+│   └── requirements.txt
+│
+├── music/
+│   ├── fragments/
+│   │   └── [*Note: INSERT FRAGMENT .WAV FILES HERE*]
+│   └── tracks/
+│       └── [*Note: INSERT FRAGMENT .WAV FILES HERE*]
+│ 
+├── playlist/
+│   └── [*Note: WHERE THE FOUND TRACKS WILL BE OUTPUTTED FROM test_us4.py*]
+│
+├── .vscode/
+│   └── launch.json
+│
+├── .gitignore
+└── README.md
 
 
 ## Microservice Ovewview and API Endpoints
