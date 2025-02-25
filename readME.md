@@ -73,6 +73,7 @@ cd ShamzamProject
 4. For music identification service only: export your Audd.io API key (should be saved in an env.txt file in the service)
     ```terminal
     export AUDD_API_KEY='your key'
+    ```
 
 5. Run the service flask app
     ```terminal
