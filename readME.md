@@ -123,6 +123,13 @@ cd ShamzamProject
     python app.py
     ```
 
+## Music
+### The Music Folder
+The project assumes .wav files of songs are present in the music folder in the main directory, and uses these to pull from for testing. The fragment folder should contain short clips of songs around 4 seconds long. The track folder should contain longer clips songs to simulate the whole song (but is actually around 8 seconds long in this instance). 
+
+### The Playlist Folder
+The playlist folder is where the resultant full length .wav sond files will be outputted to after running the test_us4 happy path test. This takes a fragment and returns the corresponding full track with the artist and song title as the name of the .wav file. 
+
 ## Testing
 ### Setting up testing enviornment
 Requirements are also needed to run the tests, so to start open a virtual environment in the main ShamzamProject directory
@@ -136,6 +143,7 @@ Then you can install the requirments.txt file
 pip install -r requirements.txt
 ```
 
+### Running the tests
 To run all the tests you can type the following command in the terminal:
 ```terminal
 python -m unittest discover tests
