@@ -16,6 +16,7 @@ Capabilities:
 - [Testing](#testing)
 
 ## Directory Structure
+```tree
 ShamzamProject/
 ├── src/
 │   ├── catalogue_management_service/
@@ -57,6 +58,7 @@ ShamzamProject/
 │
 ├── .gitignore
 └── README.md
+```
 
 
 ## Microservice Ovewview and API Endpoints
