@@ -61,7 +61,7 @@ ShamzamProject/
 ```
 
 
-## Microservice Ovewview and API Endpoints
+## Microservice Overview and API Endpoints
 ### Catalogue Managment Service 
 - **URL**: `http://localhost:5002`
 - **API Endpoints**:
