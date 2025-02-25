@@ -14,10 +14,10 @@ def get_db():
 def create_tables():
     create_tables_sql = """
     CREATE TABLE IF NOT EXISTS tracks (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
         artist TEXT NOT NULL,
         title TEXT NOT NULL,
-        encoded_song BLOB NOT NULL
+        encoded_song BLOB NOT NULL,
+        PRIMARY KEY (artist, title)
     );
     """
     db = get_db()
@@ -80,7 +80,6 @@ def list_tracks():
         db = get_db()
         cursor = db.execute('SELECT artist, title FROM tracks')
         tracks = cursor.fetchall()
-        print(f'tracks: {tracks}')
 
         if not tracks:
             return jsonify({'message': 'No tracks found'}), 404
