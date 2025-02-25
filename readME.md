@@ -11,9 +11,17 @@ Capabilities:
 
 ## Table of Contents
 - [Directory Structure](#directory-structure)
-- [Microservice Overview and API Endpoints](#overview-and-endpoints)
-- [Setup and Usage](#installation-and-usage)
+- [Microservice Overview and API Endpoints](#microservice-overview-and-api-endpoints)
+  - [Catalogue Management Service](#catalogue-management-service)
+  - [Music Identification Service](#music-identification-service)
+  - [Shamzam Service](#shamzam-service)
+- [Setup and Usage](#setup-and-usage)
+  - [Prerequisites](#prerequisites)
+  - [Clone the Repository](#clone-the-repository)
+  - [Setting Up Each Microservice](#setting-up-each-microservice)
 - [Testing](#testing)
+  - [Setting up testing environment](#setting-up-testing-environment)
+  - [Running Tests](#running-tests)
 
 ## Directory Structure
 ```tree
