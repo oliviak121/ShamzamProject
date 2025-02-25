@@ -15,7 +15,7 @@ def identify():
     try:
         base64.b64decode(encoded_content, validate=True)
     except Exception:
-        return jsonify({'error': 'Invalid Base64 encoded content'}), 400
+        return jsonify({'error': 'Invalid content format: must be Base64 encoded string'}), 400
     
     # Decode the fragment to get ready to send to Audd.io
     decoded_wav = base64.b64decode(encoded_content)
@@ -38,23 +38,18 @@ def identify():
 
         # Parse the JSON response from Audd.io
         audd_response = response.json()
-        print(f'audd_response: {audd_response}')
 
         # Check if a result exists
         if 'result' in audd_response and audd_response['result']:
-            print("Result exists")
             result = audd_response['result']
-            print(f'result: {result}')
             artist = result.get('artist')
-            print(f'artist: {artist}')
             title = result.get('title')
-            print(f'title: {title}')
 
             # Return the result to the Shamzam service
             return jsonify({'artist': artist, 'title': title}), 200
         
         else:
-            return jsonify({'message': 'No results found'}), 404
+            return jsonify({'error': 'Track not found'}), 404
 
     except Exception as e:
         return jsonify({'error': 'Failed to process identification', 'message': str(e)}), 500

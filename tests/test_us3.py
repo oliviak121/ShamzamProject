@@ -1,6 +1,7 @@
 import unittest
 import requests
 import os
+from unittest.mock import patch
 from test_helpers import encode_audio_to_base64, clear_database
 
 BASE_URL = "http://localhost:5000"  # URL of the Shamzam service
@@ -74,7 +75,6 @@ class TestListAllSongs(unittest.TestCase):
         response = requests.post(f"{BASE_URL}/catalogue/list")
         self.assertEqual(response.status_code, 405)
         self.assertIn('Method Not Allowed', response.text)
-    
 
 if __name__ == '__main__':
     unittest.main(debug=True)

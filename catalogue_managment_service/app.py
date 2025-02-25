@@ -1,15 +1,32 @@
 from flask import Flask, request, jsonify
 import sqlite3
-#from config import DATABASE
-from database import create_tables, DATABASE
-import base64
 
 app = Flask(__name__)
 
+DATABASE = 'catalogue.db'
+
+# Helper functions:
 def get_db():
     db = sqlite3.connect(DATABASE)
     db.row_factory = sqlite3.Row
     return db
+
+def create_tables():
+    create_tables_sql = """
+    CREATE TABLE IF NOT EXISTS tracks (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        artist TEXT NOT NULL,
+        title TEXT NOT NULL,
+        encoded_song BLOB NOT NULL
+    );
+    """
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute(create_tables_sql)
+    db.commit()
+    cursor.close()
+    db.close()
+
 
 create_tables()
 
@@ -84,9 +101,9 @@ def search():
         track = cursor.fetchone()
 
         if not track:
-            return jsonify({'error': 'Track not found'}), 404
+            return jsonify({'error': 'Track not found in catalogue'}), 404
         
-        return jsonify({'message': 'Track found', 'encoded_song': track['encoded_song']}), 200
+        return jsonify({'message': 'Track found', 'artist': track['artist'], 'title': track['title'], 'encoded_song': track['encoded_song']}), 200
     
     except Exception as e:
         return jsonify({'error': 'Database error', 'message': str(e)}), 500
