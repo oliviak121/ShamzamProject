@@ -3,12 +3,20 @@ import requests
 import os
 import base64
 
-audd_api_key = os.environ['AUDD_API_KEY']
-
 app = Flask(__name__)
 
+# Get the Audd.io API key from the environment
+audd_api_key = os.environ['AUDD_API_KEY'] 
+
+# Routes
 @app.route('/identify', methods=['POST'])
-def identify():
+def identify() -> jsonify:
+    """
+    Identify the artist and title of a music fragment by sending it to the Audd.io API.
+    
+    Returns:
+        jsonify: JSON response containing the identification result or an error message.
+    """
     encoded_content = request.json.get('encoded_fragment')
     
     # Check if the encoded_content is a valid Base64 encoded string

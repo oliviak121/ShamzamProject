@@ -54,7 +54,7 @@ class TestListAllSongs(unittest.TestCase):
         self.assertIn('Tracks listed', response.json()['message'])
 
         tracks = response.json()['tracks']
-        self.assertEqual(len(tracks), 3)
+        self.assertEqual(len(tracks), 3) # Ensure there are exactly 3 tracks 
         self.assertEqual(tracks[0]['artist'], 'The Weeknd')
         self.assertEqual(tracks[0]['title'], 'Blinding Lights')
         self.assertEqual(tracks[1]['artist'], 'Oasis')

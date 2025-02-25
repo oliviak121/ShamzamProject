@@ -1,17 +1,27 @@
 from flask import Flask, request, jsonify
 import sqlite3
+from sqlite3 import Connection, Cursor
 
 app = Flask(__name__)
 
 DATABASE = 'catalogue.db'
 
 # Helper functions:
-def get_db():
+def get_db() -> Connection:
+    """
+    Establish a connection to the SQLite database.
+    
+    Returns:
+        Connection: SQLite database connection object.
+    """
     db = sqlite3.connect(DATABASE)
     db.row_factory = sqlite3.Row
     return db
 
-def create_tables():
+def create_tables() -> None:
+    """
+    Create the 'tracks' table in the database if it does not already exist.
+    """
     create_tables_sql = """
     CREATE TABLE IF NOT EXISTS tracks (
         artist TEXT NOT NULL,
@@ -27,12 +37,18 @@ def create_tables():
     cursor.close()
     db.close()
 
-
+# Initialise the database
 create_tables()
 
+# Routes
 @app.route('/add', methods=['POST'])
-def add_track():
+def add_track() -> jsonify:
+    """
+    Add a new track to the database.
     
+    Returns:
+        jsonify: JSON response indicating success or failure.
+    """
     # Get the song data from the request
     data = request.json
 
@@ -54,7 +70,13 @@ def add_track():
 
 
 @app.route('/delete', methods=['DELETE'])
-def delete_track():
+def delete_track() -> jsonify:
+    """
+    Delete a track from the database.
+    
+    Returns:
+        jsonify: JSON response indicating success or failure.
+    """
     artist = request.args.get('artist')
     title = request.args.get('title')
 
@@ -74,8 +96,15 @@ def delete_track():
     except Exception as e:
         return jsonify({'error': 'Failed to delete track', 'message': str(e)}), 500
     
+
 @app.route('/tracks', methods=['GET'])
-def list_tracks():
+def list_tracks() -> jsonify:
+    """
+    List all tracks in the database.
+    
+    Returns:
+        jsonify: JSON response containing the list of tracks or an error message.
+    """
     try:
         db = get_db()
         cursor = db.execute('SELECT artist, title FROM tracks')
@@ -91,7 +120,13 @@ def list_tracks():
     
 
 @app.route('/search', methods=['GET'])
-def search():
+def search() -> jsonify:
+    """
+    Search for a track in the database by artist and title.
+    
+    Returns:
+        jsonify: JSON response containing the track details - including encoded song, or an error message.
+    """
     song_data = request.json
 
     try:
@@ -109,7 +144,13 @@ def search():
 
 
 @app.route('/clear_database', methods=['POST'])
-def clear_database():
+def clear_database() -> jsonify:
+    """
+    Clear all tracks from the database.
+    
+    Returns:
+        jsonify: JSON response indicating success or failure.
+    """
     try:
         db = get_db()
         db.execute('DELETE FROM tracks')  
@@ -118,6 +159,7 @@ def clear_database():
         return jsonify({'message': 'Database cleared successfully'}), 200
     except Exception as e:
         return jsonify({'error': 'Failed to clear database', 'message': str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True, 

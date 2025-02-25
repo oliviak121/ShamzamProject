@@ -3,16 +3,19 @@ import requests
 
 app = Flask(__name__)
 
+# URLs for the catalogue management service and audio identification service
 DATABASE_URL = 'http://localhost:5002'
 AUDIO_URL = 'http://localhost:5001'
 
-@app.route('/')
-def index():
-    return "Welcome to Shamzam!"
-
-
+# Routes
 @app.route('/catalogue/add', methods=['POST'])
-def add_song():
+def add_song() -> jsonify:
+    """
+    Add a new song to the catalogue.
+    
+    Returns:
+        jsonify: JSON response indicating success or failure.
+    """
     # Check if the request is JSON
     if not request.is_json:
         return jsonify({'error': 'Request must be JSON'}), 415
@@ -34,8 +37,8 @@ def add_song():
         if not isinstance(value, str):
             return jsonify({'error': f'{field.capitalize()} must be a string'}), 400
 
-    # Sends the song data to the Catalogue Management Service
     try:
+        # Forward the song data to the Catalogue Management Service
         response = requests.post(f'{DATABASE_URL}/add', json=song_data)
     except Exception as e:
         return jsonify({'error': 'Failed to communicate with Catalogue Management Service', 'message': str(e)}), 500
@@ -44,7 +47,13 @@ def add_song():
 
 
 @app.route('/catalogue/delete', methods=['DELETE'])
-def delete_song():
+def delete_song() -> jsonify:
+    """
+    Delete a song in the catalogue by its artist and title.
+    
+    Returns:
+        jsonify: JSON response indicating success or failure.
+    """
     # Check if the request is JSON
     if not request.is_json:
         return jsonify({'error': 'Request must be JSON'}), 415
@@ -74,8 +83,14 @@ def delete_song():
 
 
 @app.route('/catalogue/list', methods=['GET'])
-def list_songs():
-    # Sends the request to the Catalogue Management Service
+def list_songs() -> jsonify:
+    """
+    List all songs in the catalogue.
+    
+    Returns:
+        jsonify: JSON response containing the list of songs or an error message.
+    """
+    # Forwards the request to the Catalogue Management Service
     try:
         response = requests.get(f'{DATABASE_URL}/tracks')
     except Exception as e:
@@ -85,7 +100,13 @@ def list_songs():
 
 
 @app.route('/catalogue/search', methods=['GET'])
-def search_catalogue():
+def search_catalogue() -> jsonify:
+    """
+    Search for a song in the catalogue by artist and title.
+    
+    Returns:
+        jsonify: JSON response containing the song details or an error message.
+    """
     # Check if the request is JSON
     if not request.is_json:
         return jsonify({'error': 'Request must be JSON'}), 415
@@ -111,6 +132,12 @@ def search_catalogue():
 
 @app.route('/music/identify', methods=['POST'])
 def identify():
+    """
+    Identify a song by sending a music fragment to the audio identification service and then searching the catalogue for the song data.
+    
+    Returns:
+        jsonify: JSON response containing the identification result or an error message.
+    """
     # Check if the request is JSON
     if not request.is_json:
         return jsonify({'error': 'Request must be JSON'}), 415
