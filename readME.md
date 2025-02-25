@@ -48,7 +48,7 @@ ShamzamProject/
 │   ├── fragments/
 │   │   └── [*Note: INSERT FRAGMENT .WAV FILES HERE*]
 │   └── tracks/
-│       └── [*Note: INSERT FRAGMENT .WAV FILES HERE*]
+│       └── [*Note: INSERT TRACK .WAV FILES HERE*]
 │ 
 ├── playlist/
 │   └── [*Note: WHERE THE FOUND TRACKS WILL BE OUTPUTTED FROM test_us4.py*]
