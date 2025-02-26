@@ -119,7 +119,7 @@ def list_tracks() -> jsonify:
         return jsonify({'error': 'Failed to list tracks', 'message': str(e)}), 500
     
 
-@app.route('/search', methods=['GET'])
+@app.route('/search', methods=['POST'])
 def search() -> jsonify:
     """
     Search for a track in the database by artist and title.

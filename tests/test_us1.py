@@ -30,7 +30,7 @@ class TestAddSongToCatalogue(unittest.TestCase):
         self.assertIn('Track added successfully', response.json()['message'])
 
         # Verify the song is in the database
-        response = requests.get(f"{BASE_URL}/catalogue/search", json={'artist': 'The Weeknd', 'title': 'Blinding Lights'})
+        response = requests.post(f"{BASE_URL}/catalogue/search", json={'artist': 'The Weeknd', 'title': 'Blinding Lights'})
         self.assertEqual(response.status_code, 200)
         self.assertIn('Track found', response.json()['message'])
 

@@ -35,9 +35,9 @@ class TestRemoveSongFromCatalogue(unittest.TestCase):
         self.assertIn('Track deleted successfully', response.json()['message'])
 
         # Verify the song is actually deleted
-        response = requests.get(f"{BASE_URL}/catalogue/search", json={'artist': 'The Weeknd', 'title': 'Blinding Lights'})
+        response = requests.post(f"{BASE_URL}/catalogue/search", json={'artist': 'The Weeknd', 'title': 'Blinding Lights'})
         self.assertEqual(response.status_code, 404)
-        self.assertIn('Track not found', response.json()['error'])
+        self.assertIn('Track not found in catalogue', response.json()['error'])
 
     
     """Unhappy paths for removing a song."""

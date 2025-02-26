@@ -99,7 +99,7 @@ def list_songs() -> jsonify:
     return jsonify(response.json()), response.status_code
 
 
-@app.route('/catalogue/search', methods=['GET'])
+@app.route('/catalogue/search', methods=['POST'])
 def search_catalogue() -> jsonify:
     """
     Search for a song in the catalogue by artist and title.
@@ -112,6 +112,7 @@ def search_catalogue() -> jsonify:
         return jsonify({'error': 'Request must be JSON'}), 415
     
     song_data = request.json
+    print(f'song data: {song_data}')
 
     # Check if the required fields are present
     if not song_data:
@@ -123,7 +124,13 @@ def search_catalogue() -> jsonify:
     
     # Sends the song data to the Catalogue Management Service
     try:
-        response = requests.get(f'{DATABASE_URL}/search', json=song_data)
+        response = requests.post(f'{DATABASE_URL}/search', json=song_data)
+
+        try:
+            response_json = response.json()
+        except ValueError:
+            return jsonify({'error': 'Invalid JSON response from Catalogue Management Service'}), 500
+
     except Exception as e:
         return jsonify({'error': 'Failed to communicate with Catalogue Management Service', 'message': str(e)}), 500
     
@@ -157,7 +164,7 @@ def identify():
             return jsonify({'error': 'Failed to identify music', 'message': auddio_response.json()}), auddio_response.status_code
         
         # Search the Catalogue Management Service for the detected song
-        response = requests.get(f'{DATABASE_URL}/search', json={'artist': detected_artist, 'title': detected_title})
+        response = requests.post(f'{DATABASE_URL}/search', json={'artist': detected_artist, 'title': detected_title})
         return jsonify(response.json()), response.status_code
 
     except Exception as e:
