@@ -4,10 +4,10 @@
 Shamzam is a music identification service consisting of three microservices: Catalogue Management Service, Music Identification Service, and Shamzam Service; using Flask and SQLite to perform user and admin tasks. 
 
 Capabilities:
-- Add a music track to the catalogue, so that a user can listen to it.
-- Remove a music track from the catalogue, so that a user cannot listen to it.
-- List the names of the music tracks in the catalogue, to know what it contains.
-- Convert a music fragment to a music track in the catalogue, to listen to it.
+- Administrator: Add a music track to the catalogue, so that a user can listen to it.
+- Administrator: Remove a music track from the catalogue, so that a user cannot listen to it.
+- Administrator: List the names of the music tracks in the catalogue, to know what it contains.
+- User: Convert a music fragment to a music track in the catalogue, to listen to it.
 
 ## Table of Contents
 - [Directory Structure](#directory-structure)
