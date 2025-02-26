@@ -1,7 +1,7 @@
 # Shamzam - Audio Identification Project 
 
 ## Project Descrition
-Shamzam is a music identification service consisting of three microservices: Catalogue Management Service, Music Identification Service, and Shamzam Service; using Flask and SQLite to perform user and admin tasks. 
+Shamzam is a music identification service consisting of three microservices: Catalogue Management Service, Music Identification Service, and Shamzam Service; using Flask REST API and SQLite to perform user and admin tasks. 
 
 Capabilities:
 - Administrator: Add a music track to the catalogue, so that a user can listen to it.
