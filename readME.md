@@ -76,7 +76,7 @@ ShamzamProject/
   - `POST /add`: Add a new track to the catalogue.
   - `DELETE /delete`: Delete a track from the catalogue.
   - `GET /tracks`: List all tracks in the catalogue.
-  - `GET /search`: Search for a track in the catalogue.
+  - `POST /search`: Search for a track in the catalogue.
 
 ## Music Identification Service
 - **URL**: `http://localhost:5001`
@@ -89,7 +89,7 @@ ShamzamProject/
   - `POST /catalogue/add`: Add a new track to the catalogue.
   - `DELETE /catalogue/delete`: Delete a track from the catalogue.
   - `GET /catalogue/list`: List all tracks in the catalogue.
-  - `GET /catalogue/search`: Search for a track in the catalogue.
+  - `POST /catalogue/search`: Search for a track in the catalogue.
   - `POST /music/identify`: Identify a music fragment.
 
 
