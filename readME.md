@@ -107,50 +107,54 @@ cd ShamzamProject
 ### Setting Up Each Microservice
 Depending on what type of virtual environemnt you would like to use there are slight variations in how to set them up. Here are the instructions for using conda and python venv. 
 #### Using conda 
-  1. Open a new conda terminal for each service and cd into the service
+  1. Open a new conda terminal for each service and cd into the service:
       ```sh
       cd src/shamzam_service
       ```
+  2. Start a conda environement in each service:
+      ```sh
+      conda create -y —prefix ./.conda
+      ```
 
-  2. Start a conda environment in each service:
+  2. Activate the environment:
       ```sh
       conda activate ./.conda
       ```
 
-  3. Install pip and python
+  3. Install pip and python:
       ```sh
       conda install pip
       conda install python
       ```
 
-  4. Install dependances for each environment
+  4. Install dependances for each environment:
       ```sh
       pip install -r requirements.txt
       ```
 
-  5. For music identification service only: export your Audd.io API key (should be saved in an env.txt file in the service)
+  5. For music identification service only: export your Audd.io API key (should be saved in an env.txt file in the service):
       ```sh
       set AUDD_API_KEY=your-key
       ```
 
-  6. Run the service flask app
+  6. Run the service flask app:
       ```sh
       python app.py
       ```
 
-  7. Deactivate the environemnt when done
+  7. Deactivate the environemnt when done:
       ```sh
       deactivate
       ```
 
 
 #### Using python venv
-1. Open a new terminal for each service and cd into the service
+1. Open a new terminal for each service and cd into the service:
     ```sh
     cd src/shamzam_service
     ```
 
-2. Set up a virtual environement in each service
+2. Set up a virtual environement in each service:
     ```sh
     python3 -m venv venv
     ```
@@ -158,22 +162,22 @@ Depending on what type of virtual environemnt you would like to use there are sl
     source venv/bin/activate
     ```
 
-3. Install dependenices for each service
+3. Install dependenices for each service:
     ```sh
     pip install -r requirements.txt
     ```
 
-4. For music identification service only: export your Audd.io API key (should be saved in an env.txt file in the service)
+4. For music identification service only: export your Audd.io API key (should be saved in an env.txt file in the service):
     ```sh
     export AUDD_API_KEY='your-key'
     ```
 
-5. Run the service flask app
+5. Run the service flask app:
     ```sh
     python app.py
     ```
 
-6. Deactivate the environemnt when done
+6. Deactivate the environemnt when done:
     ```sh
     deactivate
     ```
