@@ -113,7 +113,7 @@ Depending on what type of virtual environemnt you would like to use there are sl
       ```
   2. Start a conda environement in each service:
       ```sh
-      conda create -y —prefix ./.conda
+      conda create -y —-prefix ./.conda
       ```
 
   2. Activate the environment:
