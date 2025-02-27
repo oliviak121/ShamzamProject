@@ -69,7 +69,7 @@ ShamzamProject/
 ```
 
 
-## Microservice Overview and API Endpoints
+## Microservices Overview and API Endpoints
 ### Catalogue Managment Service 
 - **URL**: `http://localhost:5002`
 - **API Endpoints**:
@@ -86,11 +86,11 @@ ShamzamProject/
 ### Shamzam Service
 - **URL**: `http://localhost:5000`
 - **API Endpoints**:
-  - `POST /catalogue/add`: Add a new track to the catalogue.
-  - `DELETE /catalogue/delete`: Delete a track from the catalogue.
-  - `GET /catalogue/list`: List all tracks in the catalogue.
-  - `POST /catalogue/search`: Search for a track in the catalogue.
-  - `POST /music/identify`: Identify a music fragment.
+  - `POST /catalogue/add`: Forwards request to Catalogue Management Service to add a new track to the catalogue.
+  - `DELETE /catalogue/delete`: Forwards request to Catalogue Management Service to delete a track from the catalogue.
+  - `GET /catalogue/list`: Forwards request to Catalogue Management Service to list all tracks in the catalogue.
+  - `POST /catalogue/search`: Forwards request to Catalogue Management Service to search for a track in the catalogue.
+  - `POST /music/identify`: Identifies a song fragment using the Music Identification Service.
 
 
 ## Setup and Usage
