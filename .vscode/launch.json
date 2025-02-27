@@ -16,6 +16,23 @@
             ],
             "console": "integratedTerminal",
             "justMyCode": false
+        },
+        {
+            "name": "Python: spectest",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "unittest",
+            "args": [
+                "discover",
+                "-s",
+                "tests",
+                "-p",
+                "test_us4.py",
+                "-k",
+                "test_identify_music_fragment"
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": false
         }
     ]
 }

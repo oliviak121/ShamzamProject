@@ -32,9 +32,14 @@ def identify() -> jsonify:
         # Prepare the data payload including the API key
         key = {'api_token': audd_api_key  }
         files = {"file" : ("fragment.wav", decoded_wav, "audio/wav")}
-        
+
+        data = {
+            'api_token': audd_api_key,
+            'audio': encoded_content
+        }
+
         # Make the API call to Audd.io
-        response = requests.post('https://api.audd.io/', data=key, files=files)
+        response = requests.post('https://api.audd.io/', data=data)
 
         # Handle rate limit response
         if response.status_code == 429:
@@ -47,6 +52,10 @@ def identify() -> jsonify:
         # Parse the JSON response from Audd.io
         audd_response = response.json()
 
+        # Check if Audd.io cant find the song
+        if ('status' in audd_response and audd_response['status'] == 'success') and audd_response['result'] == None:
+            return jsonify({'error': 'Audd.io unable to find matches for fragment in their database.'}), 404
+        
         # Check if a result exists
         if 'result' in audd_response and audd_response['result']:
             result = audd_response['result']
@@ -57,7 +66,7 @@ def identify() -> jsonify:
             return jsonify({'artist': artist, 'title': title}), 200
         
         else:
-            return jsonify({'error': 'Track not found'}), 404
+            return jsonify(audd_response), 404
 
     except Exception as e:
         return jsonify({'error': 'Failed to process identification', 'message': str(e)}), 500
