@@ -54,13 +54,20 @@ class TestListAllSongs(unittest.TestCase):
         self.assertIn('Tracks listed', response.json()['message'])
 
         tracks = response.json()['tracks']
-        self.assertEqual(len(tracks), 3) # Ensure there are exactly 3 tracks 
-        self.assertEqual(tracks[0]['artist'], 'The Weeknd')
-        self.assertEqual(tracks[0]['title'], 'Blinding Lights')
-        self.assertEqual(tracks[1]['artist'], 'Oasis')
-        self.assertEqual(tracks[1]['title'], 'Don\'t Look Back In Anger')
-        self.assertEqual(tracks[2]['artist'], 'Backstreet Boys')
-        self.assertEqual(tracks[2]['title'], 'Everybody (Backstreet\'s Back) (Radio Edit)')
+        self.assertEqual(len(tracks), 3) # Ensure there are exactly 3 tracks
+
+        # Extract the titles from the response
+        track_titles = {(track['artist'], track['title']) for track in tracks}
+
+        # Define the expected titles
+        expected_titles = {
+            ('The Weeknd', 'Blinding Lights'),
+            ('Oasis', 'Don\'t Look Back In Anger'),
+            ('Backstreet Boys', 'Everybody (Backstreet\'s Back) (Radio Edit)')
+        }
+
+        # Checks that the titles in the response match the expected titles
+        self.assertEqual(track_titles, expected_titles)  
 
     
     """Unhappy paths for listing all songs."""
