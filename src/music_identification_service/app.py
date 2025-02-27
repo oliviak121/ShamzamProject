@@ -25,14 +25,8 @@ def identify() -> jsonify:
     except Exception:
         return jsonify({'error': 'Invalid content format: must be Base64 encoded string'}), 400
     
-    # Decode the fragment to get ready to send to Audd.io
-    decoded_wav = base64.b64decode(encoded_content)
-    
     try:
         # Prepare the data payload including the API key
-        key = {'api_token': audd_api_key  }
-        files = {"file" : ("fragment.wav", decoded_wav, "audio/wav")}
-
         data = {
             'api_token': audd_api_key,
             'audio': encoded_content
@@ -66,7 +60,7 @@ def identify() -> jsonify:
             return jsonify({'artist': artist, 'title': title}), 200
         
         else:
-            return jsonify(audd_response), 404
+            return jsonify({'error': 'Track not found'}), 404
 
     except Exception as e:
         return jsonify({'error': 'Failed to process identification', 'message': str(e)}), 500
