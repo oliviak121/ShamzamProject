@@ -171,6 +171,11 @@ Depending on what type of virtual environemnt you would like to use there are sl
     python app.py
     ```
 
+6. Deactivate the environemnt when done
+    ```sh
+    deactivate
+    ```
+
 ## Music
 ### The Music Folder
 The project assumes .wav files of songs are present in the music folder in the main directory, and uses these to pull from for testing. The fragment folder should contain short clips of songs around 4 seconds long. The track folder should contain longer clips songs to simulate the whole song (but is actually around 8 seconds long in this instance). 
@@ -180,19 +185,16 @@ The playlist folder is where the resultant full length .wav sond files will be o
 
 ## Testing
 ### Setting up testing enviornment
-Requirements are also needed to run the tests, so to start open a virtual environment in the main ShamzamProject directory
-```terminal
-python3 -m venv venv
-source venv/bin/activate 
-```
+Requirements are also needed to run the tests, so to start open a virtual environment in the tests directory - using the steps above depending depending on your prefered environement.
 
 Then you can install the requirments.txt file
-```terminal
+```sh
 pip install -r requirements.txt
 ```
 
 ### Running the tests
 To run all the tests you can type the following command in the terminal:
-```terminal
-python -m unittest discover tests
+```sh
+python -m unittest discover 
 ```
+Once completed deactivate the environment. 
