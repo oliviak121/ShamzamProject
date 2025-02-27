@@ -9,3 +9,5 @@ playlist/
 catalogue.db
 
 **/.conda/
+
+.DS_Store
