@@ -107,35 +107,35 @@ cd ShamzamProject
 ### Setting Up Each Microservice
 #### Using conda 
   1. Open a new conda terminal for each service and cd into the service
-    ```sh
-    cd src/shamzam_service
-    ```
+      ```sh
+      cd src/shamzam_service
+      ```
 
   2. Start a conda environment in each service:
-    ```sh
-    conda activate ./.conda
-    ```
+      ```sh
+      conda activate ./.conda
+      ```
 
   3. Install pip and python
-    ```sh
-    conda install pip
-    conda install python
-    ```
+      ```sh
+      conda install pip
+      conda install python
+      ```
 
   4. Install dependances for each environment
-    ```sh
-    pip install -r requirements.txt
-    ```
+      ```sh
+      pip install -r requirements.txt
+      ```
 
   5. For music identification service only: export your Audd.io API key (should be saved in an env.txt file in the service)
-    ```terminal
-    set AUDD_API_KEY=your-key
-    ```
+      ```terminal
+      set AUDD_API_KEY=your-key
+      ```
 
   6. Run the service flask app
-    ```terminal
-    python app.py
-    ```
+      ```terminal
+      python app.py
+      ```
 
   7. Deactivate the environemnt when done
       ```sh
