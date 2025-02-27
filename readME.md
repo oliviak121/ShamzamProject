@@ -153,6 +153,8 @@ Depending on what type of virtual environemnt you would like to use there are sl
 2. Set up a virtual environement in each service
     ```sh
     python3 -m venv venv
+    ```
+    ```sh
     source venv/bin/activate
     ```
 
