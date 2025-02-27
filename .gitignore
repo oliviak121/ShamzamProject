@@ -7,3 +7,5 @@ env.txt
 playlist/
 
 catalogue.db
+
+**/.conda/

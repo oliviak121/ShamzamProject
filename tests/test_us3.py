@@ -13,7 +13,7 @@ class TestListAllSongs(unittest.TestCase):
 
     def tearDown(self):
         """Clear the database after each test."""
-        clear_database()
+        #clear_database()
 
     """Happy path for listing all songs."""
     def test_list_all_songs(self):
