@@ -105,6 +105,7 @@ cd ShamzamProject
 ```
 
 ### Setting Up Each Microservice
+Depending on what type of virtual environemnt you would like to use there are slight variations in how to set them up. Here is the instructions for conda and python venv. 
 #### Using conda 
   1. Open a new conda terminal for each service and cd into the service
       ```sh
