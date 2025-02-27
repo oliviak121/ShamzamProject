@@ -107,23 +107,23 @@ cd ShamzamProject
 ### Setting Up Each Microservice
 #### Using conda 
   1. Open a new conda terminal for each service and cd into the service
-    ```terminal
+    ```sh
     cd src/shamzam_service
     ```
 
   2. Start a conda environment in each service:
-    ```terminal
+    ```sh
     conda activate ./.conda
     ```
 
   3. Install pip and python
-    ```terminal
+    ```sh
     conda install pip
     conda install python
     ```
 
   4. Install dependances for each environment
-    ```terminal
+    ```sh
     pip install -r requirements.txt
     ```
 
@@ -136,6 +136,11 @@ cd ShamzamProject
     ```terminal
     python app.py
     ```
+
+  7. Deactivate the environemnt when done
+      ```sh
+      deactivate
+      ```
 
 
 #### Using python venv
