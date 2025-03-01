@@ -61,8 +61,13 @@ ShamzamProject/
 ├── playlist/
 │   └── [*Note: WHERE THE FOUND TRACKS WILL BE OUTPUTTED FROM test_us4.py*]
 │
+├── documents/
+│   ├── AI Declaration.pdf
+│   ├── ca enterprise .pdf
+│   └── Shamzam Project Design.pdf
+│
 ├── .vscode/
-│   └── launch.json
+│   └── launch.json *NOTE: tool used in testing*
 │
 ├── .gitignore
 └── README.md
