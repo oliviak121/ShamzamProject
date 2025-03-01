@@ -143,7 +143,7 @@ def search() -> jsonify:
         return jsonify({'error': 'Database error', 'message': str(e)}), 500
 
 
-@app.route('/clear_database', methods=['POST'])
+@app.route('/clear_database', methods=['DELETE'])
 def clear_database() -> jsonify:
     """
     Clear all tracks from the database.

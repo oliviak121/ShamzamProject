@@ -14,7 +14,7 @@ def clear_database() -> None:
         Exception: If the database could not be cleared.
     """
     url = 'http://localhost:5002/clear_database' # URL of the Catalogue Management Service
-    response = requests.post(url)
+    response = requests.delete(url)
     if response.status_code != 200:
         raise Exception("Failed to clear the database: " + response.text)
     

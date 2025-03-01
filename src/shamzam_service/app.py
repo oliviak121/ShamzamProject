@@ -122,6 +122,11 @@ def search_catalogue() -> jsonify:
     if 'title' not in song_data:
         return jsonify({'error': 'Title is required'}), 400
     
+    # Check if all fields are strings
+    for field, value in song_data.items():
+        if not isinstance(value, str):
+            return jsonify({'error': f'{field.capitalize()} must be a string'}), 400
+    
     # Sends the song data to the Catalogue Management Service
     try:
         response = requests.post(f'{DATABASE_URL}/search', json=song_data)

@@ -45,10 +45,6 @@ def identify() -> jsonify:
 
         # Parse the JSON response from Audd.io
         audd_response = response.json()
-
-        # Check if Audd.io cant find the song
-        if ('status' in audd_response and audd_response['status'] == 'success') and audd_response['result'] == None:
-            return jsonify({'error': 'Audd.io unable to find matches for fragment in their database.'}), 404
         
         # Check if a result exists
         if 'result' in audd_response and audd_response['result']:
@@ -60,7 +56,7 @@ def identify() -> jsonify:
             return jsonify({'artist': artist, 'title': title}), 200
         
         else:
-            return jsonify({'error': 'Track not found'}), 404
+            return jsonify({'error': 'Audd.io unable to find matches for fragment in their database.'}), 404
 
     except Exception as e:
         return jsonify({'error': 'Failed to process identification', 'message': str(e)}), 500
