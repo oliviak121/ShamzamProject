@@ -70,21 +70,9 @@ ShamzamProject/
 
 
 ## Microservices Overview and API Endpoints
-### Catalogue Managment Service 
-- **URL**: `http://localhost:5002`
-- **API Endpoints**:
-  - `POST /add`: Add a new track to the catalogue.
-  - `DELETE /delete`: Delete a track from the catalogue.
-  - `GET /tracks`: List all tracks in the catalogue.
-  - `POST /search`: Search for a track in the catalogue.
-
-## Music Identification Service
-- **URL**: `http://localhost:5001`
-- **API Endpoints**:
-  - `POST /identify`: Identify a music fragment.
-
 ### Shamzam Service
 - **URL**: `http://localhost:5000`
+- **Overview**: The Shamzam Service acts as the main entry point for users and administrators. It verifies that requests are in the correct format and forwards these to the appropriate microservices to perform various tasks related to music identification and catalogue management.
 - **API Endpoints**:
   - `POST /catalogue/add`: Forwards request to Catalogue Management Service to add a new track to the catalogue.
   - `DELETE /catalogue/delete`: Forwards request to Catalogue Management Service to delete a track from the catalogue.
@@ -92,6 +80,23 @@ ShamzamProject/
   - `POST /catalogue/search`: Forwards request to Catalogue Management Service to search for a track in the catalogue.
   - `POST /music/identify`: Identifies a song fragment using the Music Identification Service.
 
+### Catalogue Managment Service 
+- **URL**: `http://localhost:5002`
+- **Overview**: The Catalogue Management Service is responsible for managing the music tracks in the catalogue. It provides endpoints for administrators to add, delete, list, and search for tracks.
+- **API Endpoints**:
+  - `POST /add`: Add a new track to the catalogue.
+  - `DELETE /delete`: Delete a track from the catalogue.
+  - `GET /tracks`: List all tracks in the catalogue.
+  - `POST /search`: Search for a track in the catalogue.
+  - `DELETE /clear_database`: Clear all tracks from the database.
+
+## Music Identification Service
+- **URL**: `http://localhost:5001`
+- **Overview**: The Music Identification Service is responsible for identifying music fragments. It uses the external API Audd.io to match the provided music fragment with a known track.
+- **API Endpoints**:
+  - `POST /identify`: Identify a music fragment.
+
+See Shamzam Project Design file to see how the services interact and thhe full Rest API endpoint diagrams. 
 
 ## Setup and Usage
 ### Prerequisites
