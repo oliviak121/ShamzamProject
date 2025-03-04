@@ -75,6 +75,7 @@ ShamzamProject/
 
 
 ## Microservices Overview and API Endpoints
+![Shamzam Architecture](documents/architecture.png)
 ### Shamzam Service
 - **URL**: `http://localhost:5000`
 - **Overview**: The Shamzam Service acts as the main entry point for users and administrators. It verifies that requests are in the correct format and forwards these to the appropriate microservices to perform various tasks related to music identification and catalogue management.
