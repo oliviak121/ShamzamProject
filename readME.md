@@ -101,7 +101,7 @@ ShamzamProject/
 - **API Endpoints**:
   - `POST /identify`: Identify a music fragment.
 
-See Shamzam Project Design file to see how the services interact and thhe full Rest API endpoint diagrams. 
+See Shamzam Project Design file to see how the services interact and the full Rest API endpoint diagrams. 
 
 ## Setup and Usage
 ### Prerequisites
