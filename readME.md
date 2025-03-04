@@ -137,9 +137,8 @@ Depending on what type of virtual environemnt you would like to use there are sl
       conda activate ./.conda
       ```
 
-  3. Install pip and python:
+  3. Install python:
       ```sh
-      conda install pip
       conda install python
       ```
 
