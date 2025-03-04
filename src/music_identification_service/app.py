@@ -17,6 +17,10 @@ def identify() -> jsonify:
     Returns:
         jsonify: JSON response containing the identification result or an error message.
     """
+    # Check if the request is JSON
+    if not request.is_json:
+        return jsonify({'error': 'Request must be JSON'}), 415
+    
     encoded_content = request.json.get('encoded_fragment')
     
     # Check if the encoded_content is a valid Base64 encoded string

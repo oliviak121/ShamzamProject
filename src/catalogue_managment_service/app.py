@@ -49,9 +49,28 @@ def add_track() -> jsonify:
     Returns:
         jsonify: JSON response indicating success or failure.
     """
+    # Check if the request is JSON
+    if not request.is_json:
+        return jsonify({'error': 'Request must be JSON'}), 415
+    
     # Get the song data from the request
     data = request.json
 
+    # Check if the required fields are present
+    if not data:
+        return jsonify({'error': 'No data provided'}), 400
+    if 'artist' not in data:
+        return jsonify({'error': 'Artist is required'}), 400
+    if 'title' not in data:
+        return jsonify({'error': 'Title is required'}), 400
+    if 'encoded_song' not in data:
+        return jsonify({'error': 'Encoded song is required'}), 400
+    
+    # Check if all fields are strings
+    for field, value in data.items():
+        if not isinstance(value, str):
+            return jsonify({'error': f'{field.capitalize()} must be a string'}), 400
+    
     try:
         db = get_db()
         # Check if the track already exists
@@ -76,9 +95,15 @@ def delete_track() -> jsonify:
     
     Returns:
         jsonify: JSON response indicating success or failure.
-    """
+    """ 
     artist = request.args.get('artist')
     title = request.args.get('title')
+
+    # Check if the required parameters are present and are strings
+    if not artist or not isinstance(artist, str):
+        return jsonify({'error': 'Artist is required and must be a string'}), 400
+    if not title or not isinstance(title, str):
+        return jsonify({'error': 'Title is required and must be a string'}), 400
 
     try:
         db = get_db()
@@ -127,7 +152,24 @@ def search() -> jsonify:
     Returns:
         jsonify: JSON response containing the track details - including encoded song, or an error message.
     """
+    # Check if the request is JSON
+    if not request.is_json:
+        return jsonify({'error': 'Request must be JSON'}), 415
+    
     song_data = request.json
+
+    # Check if the required fields are present
+    if not song_data:
+        return jsonify({'error': 'No data provided'}), 400
+    if 'artist' not in song_data:
+        return jsonify({'error': 'Artist is required'}), 400
+    if 'title' not in song_data:
+        return jsonify({'error': 'Title is required'}), 400
+    
+    # Check if all fields are strings
+    for field, value in song_data.items():
+        if not isinstance(value, str):
+            return jsonify({'error': f'{field.capitalize()} must be a string'}), 400
 
     try:
         db = get_db()

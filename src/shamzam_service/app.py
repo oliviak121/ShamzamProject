@@ -112,7 +112,6 @@ def search_catalogue() -> jsonify:
         return jsonify({'error': 'Request must be JSON'}), 415
     
     song_data = request.json
-    print(f'song data: {song_data}')
 
     # Check if the required fields are present
     if not song_data:
